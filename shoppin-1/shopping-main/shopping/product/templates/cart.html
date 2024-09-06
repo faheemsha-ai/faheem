@@ -1,0 +1,41 @@
+{% extends 'theme.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+  <h1>Your Cart Items</h1>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Item Name </th>
+        <th scope="col">Qty</th>
+        <th scope="col">Action</th>
+        <th>ADD</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for a in cart_items %}
+      <tr>
+        <th scope="row">1</th>
+        <td>{{a.product}}</td>
+        <td>{{a.quantity}}</td>
+        <td>
+          <form action="{% url 'delete' a.id %}" method="post">
+            {% csrf_token %}
+            <button class="btn btn-danger">Remove</button>
+          </form>
+        </td>
+        <td>
+          <a href="{% url 'add_to_cart' a.id %}"  class="btn btn-success">+</a>
+          <a href="{% url 'remove_from_cart' a.quantity %}" class="btn btn-danger">-</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="/"><button class="btn btn-dark" type="submit" style="margin-left: 4%;">Continue Shoping</button></a>
+  <button class="btn btn-warning" type="submit" style="margin-left: 4%;">Total price : ₹ {{total_price}}</button>
+  <a href="/checkOut"><button class="btn btn-success" type="submit" style="margin-left: 4%;">Check out</button></a>
+
+  {% endblock %}
